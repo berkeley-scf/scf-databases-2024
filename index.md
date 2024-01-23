@@ -4,7 +4,12 @@ layout: default
 title: 'Databases and SQL workshop'
 ---
 
-The workshop will be Saturday January 27, 9-3:30, in Evans 330.
+# Logistics
+
+Time: Saturday January 27, 9-3:30
+Place: Evans 330
+
+**Note: Evans is accessed by keycard on the weekends. If you don't have keycard access, email Chris and we'll arrange a time for you to be let in.**
 
 # 1 Preparation
 
