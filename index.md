@@ -17,7 +17,7 @@ Place: Evans 330
 
 - If you'd like to use Python, install either the `sqlite3` or `duckdb` packages on your laptop.
 - If you'd like to use R, install the `RSQLite` and `duckdb` packages on your laptop.
-- Download [this DuckDB database file](http://www.stat.berkeley.edu/share/paciorek/stackoverflow-2021.duckdb) and [this SQLite database file](http://www.stat.berkeley.edu/share/paciorek/stackoverflow-2021.db) onto your laptop.
+- Download [this DuckDB database file](http://www.stat.berkeley.edu/share/paciorek/stackoverflow-2021.duckdb), [this alternative DuckDB database file](http://www.stat.berkeley.edu/share/paciorek/stackoverflow-2021-oldv.duckdb) and [this SQLite database file](http://www.stat.berkeley.edu/share/paciorek/stackoverflow-2021.db) onto your laptop.
 
 Alternatively, if you have an SCF account you can plan to use one of the SCF machines via ssh or the [SCF Jupyterhub](jupyter.stat.berkeley.edu).
 

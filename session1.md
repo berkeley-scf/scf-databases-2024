@@ -47,7 +47,7 @@ Python:
 ```
 import duckdb
 dir = 'data' # relative or absolute path to where the .duckdb file is
-dbFilename = 'stackoverflow-2021.duckdb'
+dbFilename = 'stackoverflow-2021-oldv.duckdb'
 import os
 db = duckdb.connect(os.path.join(dir, dbFilename))
 db.sql("select * from questions limit 5")
@@ -60,9 +60,9 @@ library(duckdb)
 drv <- duckdb()
 dir <- 'data' # relative or absolute path to where the .db file is
 dbFilename <- 'stackoverflow-2021.duckdb'
-dbd <- dbConnect(drv, file.path(dir, dbFilename))
+db <- dbConnect(drv, file.path(dir, dbFilename))
 # simple query to get 5 rows from a table
-dbGetQuery(dbd, "select * from questions limit 5")  
+dbGetQuery(db, "select * from questions limit 5")  
 ```
 
 ## Basic SQL syntax
