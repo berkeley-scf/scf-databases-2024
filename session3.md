@@ -4,24 +4,23 @@ layout: default
 title: 'Window functions and complicated queries'
 ---
 
-### Window functions
+## Window functions
 
 - [Window functions](https://berkeley-scf.github.io/tutorial-databases/sql#33-window-functions)
 
 In small groups, work on this window-function-based question.
 
-
 For each question find the answer from the user with the maximum reputation
 amongst all those answering the question.
 
-Start by determining the rank by reputation of the ownerid amongst all answers.
-Then restrict to the highest rank.
-Then bring in the question information.
+ - Start by determining the rank by reputation of the ownerid amongst all answers.
+ - Then restrict to the highest rank.
+ - Then bring in the question information.
 
 
-### Challenges
+## Challenges
 
-These are based on some sample questions suggested to me by a data science manager from one of the big tech companies.
+These are based on [some sample questions](https://berkeley-scf.github.io/tutorial-databases/sql#34-putting-it-all-together-to-do-complicated-queries) suggested to me by a data science manager from one of the big tech companies.
 
 Let's work on them in small groups.
 

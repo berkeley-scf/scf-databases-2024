@@ -4,9 +4,9 @@ layout: default
 title: 'Core SQL functionality'
 ---
 
-In this session, we'll work through grouping, joins (including self-joins), set operations, and subqueries.
+In this session, we'll work through grouping/aggregation/reduction, joins (including self-joins), set operations, and subqueries.
 
-### Group by
+## Group by
 
 - [Grouping/stratification](https://berkeley-scf.github.io/tutorial-databases/sql#13-grouping--stratifying-group-by)
 
@@ -22,19 +22,24 @@ select answercount, commentcount, count(*) as n from questions group by answerco
 select tag, count(*) as n from questions_tags where tag like 'python%' group by tag having n > 1000
 ```
 
-### Joins
+## Joins
 
 - [Merging tables (joins)](https://berkeley-scf.github.io/tutorial-databases/sql#14-joins)
 
 In small groups, discuss what these queries do.
+
+### Inner joins
 
 ```
 select * from questions join questions_tags on questions.questionid = questions_tags.questionid
 select * from questions Q join questions_tags T on Q.questionid = T.questionid
 select * from questions Q join questions_tags T using(questionid)
 select * from questions Q, questions_tags T where Q.questionid = T.questionid
+```
 
+### Outer joins
 
+```
 select * from questions Q left outer join answers A on Q.questionid = A.questionid 
 select * from questions Q left outer join answers A on Q.questionid = A.questionid where A.creationdate is NULL
 select * from questions Q right outer join answers A on Q.questionid = A.questionid where Q.creationdate is NULL   # Note no right outer join in SQLite so need to reverse order of answers and questions
@@ -42,15 +47,15 @@ select * from questions Q right outer join answers A on Q.questionid = A.questio
 select questionid, count(*) as n_tags from questions Q join questions_tags T on Q.questionid = T.questionid group by Q.questionid
 ```
 
-#### Self joins
+### Self joins
 
 First we'll set up a view (a temporary) table that combines questions and tags for ease of illustrating ideas around self joins.
-
-In small groups, discuss what these queries do.
 
 ```
 create view QT as select * from questions join questions_tags using(questionid)
 ```
+
+In small groups, discuss what these queries do.
 
 ```
 select * from QT join QT using(questionid)
@@ -65,9 +70,10 @@ select * from QT join QT using(ownerid)
 
 ### Set operations
 
-In small groups, discuss what these queries do.
 
 - [Set operations](https://berkeley-scf.github.io/tutorial-databases/sql#31-set-operations-union-intersect-except)
+
+In small groups, discuss what these queries do.
 
 ```
 select ownerid from QT where tag="python" intersect select ownerid from QT where tag="r"
@@ -99,9 +105,9 @@ select userid, avg(upvotes) from users where userid in
                 (select distinct ownerid from
                 questions join questions_tags using(questionid)
                 where tag = 'python')"
-```   
+```
 
-### Challenges: Joins, set operations, grouping and subqueries
+## Challenges: Joins, set operations, grouping and subqueries
 
 1. Find all the questions that have answers using:
    - a join

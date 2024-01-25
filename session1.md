@@ -6,8 +6,16 @@ title: 'Introduction'
 
 Topics:
 
+## Databases overview
+
 - [Overview of databases](https://berkeley-scf.github.io/tutorial-databases/#3-database-systems-and-sql)
+
+## Memory and disk
+
 - [Working with large datasets: memory and disk](https://berkeley-scf.github.io/tutorial-databases/#2-background)
+
+## Schema and normalization 
+
 - [Database schema and normalization](https://berkeley-scf.github.io/tutorial-databases/#4-schema-and-normalization)
 
 Discussion question:
@@ -15,6 +23,8 @@ Discussion question:
 I noticed a data analysis challenge (on Kaggle) involves analyzing data on motor vehicle collisions in New York City. Each record represents an individual collision, including the date, time and location of the accident, vehicles and victims involved, and factors contributing to the accident (e.g., weather, excessive speed, drunk driving, ...). Consider trying to set this up as a single table (or dataframe). What difficulties do you run into?
 
 Now consider how you would create database containing multiple tables with this sort of information. What would the tables be? 
+
+## Example dataset of StackOverflow questions and answers
 
 - [StackOverflow example database](https://berkeley-scf.github.io/tutorial-databases/#5-stack-overflow-example-database)
 
@@ -28,10 +38,34 @@ Now consider how you would create database containing multiple tables with this 
 
    Each question may have zero or more answers and each question has one or more tags indicating what the question is above.
 
+## Accessing a database from Python and R
 
 - [Accessing a database from languages like R and Python](https://berkeley-scf.github.io/tutorial-databases/#6-accessing-a-database-and-using-sql-from-other-languages)
 
-Recall that you can load the database into Python or R and see how to invoke an SQL query 
+Python:
+
+```
+import duckdb
+dir = 'data' # relative or absolute path to where the .duckdb file is
+dbFilename = 'stackoverflow-2021.duckdb'
+import os
+db = duckdb.connect(os.path.join(dir, dbFilename))
+db.sql("select * from questions limit 5")
+```
+
+R:
+
+```
+library(duckdb)
+drv <- duckdb()
+dir <- 'data' # relative or absolute path to where the .db file is
+dbFilename <- 'stackoverflow-2021.duckdb'
+dbd <- dbConnect(drv, file.path(dir, dbFilename))
+# simple query to get 5 rows from a table
+dbGetQuery(dbd, "select * from questions limit 5")  
+```
+
+## Basic SQL syntax
 
 - [Basic SQL syntax](https://berkeley-scf.github.io/tutorial-databases/sql#1-introduction-to-sql)
 
@@ -50,6 +84,7 @@ select ownerid, title from questions limit 5
 select * from questions
 select * from questions order by answercount desc
 select count(*) as n from questions
+select count(ownerid) as n from questions
 select sum(answercount) from questions
 ```
 
