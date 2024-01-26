@@ -47,7 +47,7 @@ Python:
 ```
 import duckdb
 dir = 'data' # relative or absolute path to where the .duckdb file is
-dbFilename = 'stackoverflow-2021-oldv.duckdb'
+dbFilename = 'stackoverflow-2021.duckdb'  # possibly 'stackoverflow-2021-oldv.duckdb'
 import os
 db = duckdb.connect(os.path.join(dir, dbFilename))
 db.sql("select * from questions limit 5")
