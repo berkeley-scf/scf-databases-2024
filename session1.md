@@ -53,6 +53,13 @@ db = duckdb.connect(os.path.join(dir, dbFilename))
 db.sql("select * from questions limit 5")
 ```
 
+To return a result as a dataframe:
+
+```
+db.sql("select * from questions limit 5").fetch_df()
+```
+
+
 R:
 
 ```
@@ -99,12 +106,12 @@ select count(distinct tag) from questions_tags limit 15
 ### Filtering rows with `where`
 
 ```
-select * from questions where answercount > 100
-select * from questions where answercount > 100 order by answercount desc
-select * from questions where answer = 100 limit 5
+select * from questions where answercount > 40
+select * from questions where answercount > 40 order by answercount desc
+select * from questions where answercount = 10 limit 5
 select * from questions_tags where tag like 'r-%' limit 10
 select * from questions_tags where tag similar to 'r-%|%-r|r|%-r-%' limit 10
-select * from questions_tags where tag in ('r','java','python') limit 10
+select * from questions_tags where tag in ('java','r','python') limit 10
 ```
 
 

@@ -52,6 +52,6 @@ The output should be something like:
 number of answers | average number of questions per month
 ```
 
-
+You'll want to work through this in pieces. Try to think about the initial tables you would need and then build up your query in a nested fashion.
 
 

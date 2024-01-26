@@ -13,27 +13,29 @@ In this session, we'll work through grouping/aggregation/reduction, joins (inclu
 In small groups, discuss what these queries do.
 
 ```
-select tag, count(*) as n from questions_tags 
-    group by tags
+select tag, count(*) as n from questions_tags \
+    group by tag
 
-select tag, count(*) as n from questions_tags 
+select tag, count(*) as n from questions_tags \
     group by tag having n > 1000
     
-select ownerid, count(*) as n from questions 
+select ownerid, count(*) as n from questions \
     group by ownerid order by n desc limit 15
     
-select ownerid, sum(viewcount) as viewed from questions 
+select ownerid, sum(viewcount) as viewed from questions \
     group by ownerid
 
-select *, sum(viewcount) as viewed from questions 
+select *, sum(viewcount) as viewed from questions \
     group by ownerid
 
-select answercount, commentcount, count(*) as n from questions 
-    group by answercount commentcount
+select answercount, commentcount, count(*) as n from questions \
+    group by answercount, commentcount
 
-select tag, count(*) as n from questions_tags 
+select tag, count(*) as n from questions_tags \
     where tag like 'python%' group by tag having n > 1000
 ```
+
+The query above starting with `select *, sum(viewcount)` behaves differently in SQLite and DuckDB.
 
 ## Joins
 
@@ -44,36 +46,36 @@ In small groups, discuss what these queries do.
 ### Inner joins
 
 ```
-select * from questions join questions_tags 
+select * from questions join questions_tags \
     on questions.questionid = questions_tags.questionid
     
-select * from questions Q join questions_tags T
+select * from questions Q join questions_tags T \
     on Q.questionid = T.questionid
     
-select * from questions Q join questions_tags T 
-    on using(questionid)
+select * from questions Q join questions_tags T \
+    using(questionid)
     
-select * from questions Q, questions_tags T 
+select * from questions Q, questions_tags T \
     where Q.questionid = T.questionid
 ```
 
 ### Outer joins
 
 ```
-select * from questions Q left outer join answers A 
+select * from questions Q left outer join answers A \
     on Q.questionid = A.questionid 
     
-select * from questions Q left outer join answers A 
-    on Q.questionid = A.questionid 
+select * from questions Q left outer join answers A \
+    on Q.questionid = A.questionid \
     where A.creationdate is NULL
     
-# Note no right outer join in SQLite so here we reverse order of answers and questions
-select * from questions Q right outer join answers A 
-    on Q.questionid = A.questionid 
+# Note no right outer join in SQLite so here we reverse order of answers and questions \
+select * from questions Q right outer join answers A \
+    on Q.questionid = A.questionid \
     where Q.creationdate is NULL
 
-select questionid, count(*) as n_tags from questions Q join questions_tags T 
-    on Q.questionid = T.questionid 
+select Q.questionid, count(*) as n_tags from questions Q join questions_tags T \
+    on Q.questionid = T.questionid \
     group by Q.questionid
 ```
 
@@ -88,18 +90,18 @@ create view QT as select * from questions join questions_tags using(questionid)
 In small groups, discuss what these queries do.
 
 ```
-select * from QT join QT 
+select * from QT as QT1 join QT as QT2 \
     using(questionid)
 
-select * from QT as QT1 join QT as QT2 
+select * from QT as QT1 join QT as QT2 \
     using(questionid) where QT1.tag < QT2.tag
     
-select QT1.tag, QT2.tag, count(*) as n from QT as QT1 join QT as QT2 
-    using(questionid) where QT1.tag < QT2.tag
+select QT1.tag, QT2.tag, count(*) as n from QT as QT1 join QT as QT2 \
+    using(questionid) where QT1.tag < QT2.tag \
     group by QT1.tag, QT2.tag order by n desc limit 10
 
 
-select * from QT join QT using(ownerid)
+select * from QT as QT1 join QT as QT2 using(ownerid)
 ```
 
 ### Set operations
@@ -110,21 +112,23 @@ select * from QT join QT using(ownerid)
 In small groups, discuss what these queries do.
 
 ```
-select ownerid from QT where tag="python" 
-    intersect 
-    select ownerid from QT where tag="r"
+select ownerid from QT where tag='python' \
+    intersect \
+    select ownerid from QT where tag='r'
     
-select ownerid from QT where tag="python" 
-    except 
-    select ownerid from QT where tag="r"
+select ownerid from QT where tag='python' \
+    except \
+    select ownerid from QT where tag='r'
     
-select ownerid from QT where tag="python" 
-    union 
-    select ownerid from QT where tag="r"
+select ownerid from QT where tag='python' \
+    union \
+    select ownerid from QT where tag='r'
 
-select userid,displayname from users where location="us"
-    intersect
-    select userid,displayname from users where location="canada"
+select userid, displayname, location from users \
+    where location like '%United States%' \
+    union \
+    select userid, displayname, location from users \
+    where location like '%Canada%'
 ```
 
 ### Subqueries
@@ -134,21 +138,21 @@ In small groups, discuss what these queries do.
 - [Subqueries (and with statements)](https://berkeley-scf.github.io/tutorial-databases/sql#32-subqueries)
 
 ```
-select * from 
-    answers A
-    join
-    (select ownerid, count(*) as n_answered from answers
-        group by ownerid order by n_answered desc limit 1000) most_responsive
-    on A.ownerid = most_responsive.ownerid"
+select * from \
+    answers A \
+    join \
+    ( select ownerid, count(*) as n_answered from answers \
+        group by ownerid order by n_answered desc limit 1000 ) most_responsive \
+    on A.ownerid = most_responsive.ownerid
 ```
 
 
 ```
-select userid, avg(upvotes) from users 
-    where userid in
-    (select distinct ownerid from
-    questions join questions_tags using(questionid)
-    where tag = 'python')
+select avg(upvotes) from users \
+    where userid in \
+    ( select distinct ownerid from \
+    questions join questions_tags using(questionid) \
+    where tag = 'python' )
 ```
 
 ## Challenges: Joins, set operations, grouping and subqueries
