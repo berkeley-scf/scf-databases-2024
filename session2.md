@@ -126,9 +126,9 @@ select ownerid from QT where tag='python' \
 
 select userid, displayname, location from users \
     where location like '%United States%' \
-    union \
+    intersect \
     select userid, displayname, location from users \
-    where location like '%Canada%'
+    where reputation > 10
 ```
 
 ### Subqueries

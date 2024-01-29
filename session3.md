@@ -14,8 +14,8 @@ For each question find the answer from the user with the maximum reputation
 amongst all those answering the question.
 
  - Start by determining the rank by reputation of the ownerid amongst all answers.
- - Then restrict to the highest rank.
  - Then bring in the question information.
+ - Then restrict to the highest rank.
 
 
 ## Challenges
